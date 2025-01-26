@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cm0wfns04qkyr"]
+
+[ext_resource type="Script" path="res://scenes/player.gd" id="1_1c0fl"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_38yqe"]
+radius = 16.0
+height = 64.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_1c0fl")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_38yqe")
+
+[node name="Camera" type="Camera2D" parent="."]
+position_smoothing_enabled = true
