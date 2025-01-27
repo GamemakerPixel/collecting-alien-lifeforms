@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bq7oe4c0orhsk"]
+
+[ext_resource type="Script" path="res://scenes/maps/procedural_planet.gd" id="1_27ufo"]
+[ext_resource type="TileSet" uid="uid://bc7poo3v4t30i" path="res://resources/tilesets/bioluminescent_forest.tres" id="1_cyuv2"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_kgpaf"]
+
+[node name="Planet" type="Node2D" node_paths=PackedStringArray("ground_tiles")]
+script = ExtResource("1_27ufo")
+height_noise = SubResource("FastNoiseLite_kgpaf")
+ground_tiles = NodePath("Tiles/Ground")
+
+[node name="Tiles" type="Node2D" parent="."]
+
+[node name="Ground" type="TileMapLayer" parent="Tiles"]
+tile_set = ExtResource("1_cyuv2")
