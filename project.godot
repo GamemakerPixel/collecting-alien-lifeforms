@@ -45,6 +45,11 @@ jump={
 
 2d_physics/layer_1="environment"
 2d_physics/layer_2="player"
+2d_physics/layer_3="grabable"
+
+[physics]
+
+2d/default_gravity=750.0
 
 [rendering]
 

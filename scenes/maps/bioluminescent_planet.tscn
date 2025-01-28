@@ -1,9 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://bq7oe4c0orhsk"]
+[gd_scene load_steps=5 format=3 uid="uid://bq7oe4c0orhsk"]
 
 [ext_resource type="Script" path="res://scenes/maps/procedural_planet.gd" id="1_27ufo"]
 [ext_resource type="TileSet" uid="uid://bc7poo3v4t30i" path="res://resources/tilesets/bioluminescent_forest.tres" id="1_cyuv2"]
+[ext_resource type="PackedScene" uid="uid://ck4r8065g78u" path="res://scenes/player.tscn" id="3_vn2fw"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_kgpaf"]
+frequency = 0.05
 
 [node name="Planet" type="Node2D" node_paths=PackedStringArray("ground_tiles")]
 script = ExtResource("1_27ufo")
@@ -14,3 +16,6 @@ ground_tiles = NodePath("Tiles/Ground")
 
 [node name="Ground" type="TileMapLayer" parent="Tiles"]
 tile_set = ExtResource("1_cyuv2")
+
+[node name="Player" parent="." instance=ExtResource("3_vn2fw")]
+position = Vector2(0, -576)

@@ -7,8 +7,8 @@ const JUMP_INPUT = "jump"
 
 # Physics Constants
 const TILE_SIZE = 32
-const SPEED := TILE_SIZE * 8 # Pixels / second
-const JUMP_HEIGHT := TILE_SIZE * 6 # Pixels
+const SPEED := TILE_SIZE * 5 # Pixels / second
+const JUMP_HEIGHT := TILE_SIZE * 3 # Pixels
 const JUMP_RELEASE_MULTIPLIER = 0.25
 
 @export var gravity_scale := 1.0
@@ -20,11 +20,6 @@ const JUMP_RELEASE_MULTIPLIER = 0.25
 
 
 var horizontal_input := 0.0
-
-
-func _ready() -> void:
-	print(jump_velocity)
-	print(gravity)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -45,4 +40,3 @@ func _physics_process(delta: float) -> void:
 		velocity.y *= JUMP_RELEASE_MULTIPLIER
 	
 	move_and_slide()
-	print(position)
