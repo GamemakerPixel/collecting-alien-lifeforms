@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c2gynryh5mekq"]
+
+[ext_resource type="Shader" path="res://resources/highlight_shader.gdshader" id="1_5dael"]
+
+[resource]
+shader = ExtResource("1_5dael")
+shader_parameter/outline_size = 0.1

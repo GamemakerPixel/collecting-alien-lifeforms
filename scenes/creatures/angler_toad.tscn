@@ -1,0 +1,59 @@
+[gd_scene load_steps=10 format=3 uid="uid://c3r6g2w14tn1b"]
+
+[ext_resource type="Script" path="res://scenes/creatures/angler_toad.gd" id="1_4ikob"]
+[ext_resource type="Texture2D" uid="uid://8r8xswdseiqf" path="res://assets/textures/tilesets/bio_frog.png" id="2_myt2a"]
+[ext_resource type="Script" path="res://scripts/extendable/state_machine.gd" id="3_jnjg3"]
+[ext_resource type="Script" path="res://scenes/creatures/states/angler_toad/idle.gd" id="4_huy11"]
+[ext_resource type="Script" path="res://scenes/creatures/states/angler_toad/walk.gd" id="5_jcn3v"]
+[ext_resource type="Script" path="res://scenes/creatures/states/angler_toad/run.gd" id="6_7q1it"]
+[ext_resource type="Script" path="res://scenes/creatures/states/angler_toad/bound.gd" id="6_of7qy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pqks7"]
+size = Vector2(30, 28)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6dayp"]
+radius = 272.0
+
+[node name="AnglerToad" type="CharacterBody2D"]
+collision_layer = 8
+script = ExtResource("1_4ikob")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -15)
+texture = ExtResource("2_myt2a")
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -14)
+shape = SubResource("RectangleShape2D_pqks7")
+
+[node name="JumpRay" type="RayCast2D" parent="."]
+position = Vector2(0, -14)
+target_position = Vector2(50, 0)
+
+[node name="Hearing" type="Area2D" parent="."]
+position = Vector2(0, -14)
+collision_layer = 0
+collision_mask = 2
+
+[node name="Collision" type="CollisionShape2D" parent="Hearing"]
+shape = SubResource("CircleShape2D_6dayp")
+
+[node name="States" type="Node" parent="."]
+script = ExtResource("3_jnjg3")
+
+[node name="Idle" type="Node" parent="States" node_paths=PackedStringArray("creature")]
+script = ExtResource("4_huy11")
+creature = NodePath("../..")
+
+[node name="Walk" type="Node" parent="States" node_paths=PackedStringArray("creature")]
+script = ExtResource("5_jcn3v")
+creature = NodePath("../..")
+
+[node name="Run" type="Node" parent="States" node_paths=PackedStringArray("creature")]
+script = ExtResource("6_7q1it")
+creature = NodePath("../..")
+
+[node name="Bound" type="Node" parent="States" node_paths=PackedStringArray("creature")]
+script = ExtResource("6_of7qy")
+creature = NodePath("../..")

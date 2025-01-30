@@ -1,0 +1,14 @@
+extends CharacterBody2D
+class_name Creature
+
+const SELECTED_MATERIAL = preload("res://resources/outline.tres")
+
+
+func select() -> void:
+	if has_node("Sprite"):
+		$Sprite.material = SELECTED_MATERIAL
+
+
+func deselect() -> void:
+	if has_node("Sprite"):
+		$Sprite.material = null
