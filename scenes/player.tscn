@@ -1,8 +1,45 @@
-[gd_scene load_steps=6 format=3 uid="uid://ck4r8065g78u"]
+[gd_scene load_steps=19 format=3 uid="uid://ck4r8065g78u"]
 
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_1c0fl"]
 [ext_resource type="Texture2D" uid="uid://cgqx826kpaflu" path="res://assets/textures/tilesets/player_character.png" id="2_n8nbe"]
+[ext_resource type="Texture2D" uid="uid://bt53yin8kyqda" path="res://assets/textures/tilesets/player_character_walk_0001.png" id="3_agbeg"]
 [ext_resource type="Script" path="res://scenes/item_pickup.gd" id="3_ayb5u"]
+[ext_resource type="Script" path="res://scenes/ui.gd" id="4_8bqsp"]
+[ext_resource type="Theme" uid="uid://csubkrd8taiew" path="res://resources/default.tres" id="4_d27i8"]
+[ext_resource type="Texture2D" uid="uid://labrpcy8byvs" path="res://assets/textures/tilesets/player_character_walk_0002.png" id="4_tqe7o"]
+[ext_resource type="Script" path="res://scenes/ui/message_board.gd" id="5_hu7n7"]
+[ext_resource type="Texture2D" uid="uid://cyv2pphn32wwt" path="res://assets/textures/tilesets/player_character_walk_0003.png" id="5_joagl"]
+[ext_resource type="Texture2D" uid="uid://c8y3ng0ho2l1t" path="res://assets/textures/tilesets/player_character_walk_0004.png" id="6_xslwy"]
+[ext_resource type="AudioStream" uid="uid://y7gmysqu723u" path="res://assets/sound/pick_up.wav" id="8_xgq6e"]
+[ext_resource type="AudioStream" uid="uid://cyu6o0q0q4iia" path="res://assets/sound/player_jump.wav" id="11_cgdl6"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5spmk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_n8nbe")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_agbeg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_tqe7o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_joagl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_xslwy")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_38yqe"]
 radius = 13.0
@@ -11,13 +48,76 @@ height = 60.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_as84h"]
 radius = 160.0
 
+[sub_resource type="Animation" id="Animation_jcau4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sounds/Jump:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_4x7pd"]
+resource_name = "jump"
+length = 0.5
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.375, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.9, 1.1), Vector2(1.1, 0.9), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sounds/Jump:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bp2ai"]
+_data = {
+"RESET": SubResource("Animation_jcau4"),
+"jump": SubResource("Animation_4x7pd")
+}
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 script = ExtResource("1_1c0fl")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -30)
-texture = ExtResource("2_n8nbe")
+sprite_frames = SubResource("SpriteFrames_5spmk")
+animation = &"idle"
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -30)
@@ -37,5 +137,42 @@ script = ExtResource("3_ayb5u")
 [node name="Collision" type="CollisionShape2D" parent="ItemPickup"]
 shape = SubResource("CircleShape2D_as84h")
 
+[node name="ItemPickup" type="AudioStreamPlayer" parent="ItemPickup"]
+stream = ExtResource("8_xgq6e")
+volume_db = -3.0
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("4_8bqsp")
+
+[node name="MessageBoard" type="MarginContainer" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_d27i8")
+theme_override_constants/margin_left = 250
+theme_override_constants/margin_top = 75
+theme_override_constants/margin_right = 250
+theme_override_constants/margin_bottom = 75
+script = ExtResource("5_hu7n7")
+
+[node name="Messages" type="VBoxContainer" parent="UI/MessageBoard"]
+layout_mode = 2
+alignment = 2
+
+[node name="Timers" type="Node" parent="UI/MessageBoard"]
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_bp2ai")
+}
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="Jump" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("11_cgdl6")
+
 [connection signal="body_entered" from="ItemPickup" to="ItemPickup" method="_on_body_entered"]
 [connection signal="body_exited" from="ItemPickup" to="ItemPickup" method="_on_body_exited"]
+[connection signal="pickup_failed_inventory_full" from="ItemPickup" to="UI" method="message_player_inventory_full"]

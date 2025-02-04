@@ -1,18 +1,37 @@
 extends Area2D
 
-signal item_focused(item: Node2D)
-signal item_unfocused(item: Node2D)
+signal pickup_failed_inventory_full
 
-const ITEM_DISTANCE_WEIGHT = 1.0
-const ITEM_ANGLE_WEIGHT = 100.0
+const PICKUP_INPUT = "pickup"
+
+const ITEM_DISTANCE_WEIGHT = 0.05
+const ITEM_ANGLE_WEIGHT = 6.0
 
 var scanning := true : set = _set_scanning
 var in_area: Array[Node2D] = []
-var focused_item: Node2D = null : set = _set_focused_item
+var focused_item: Creature = null : set = _set_focused_item
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(PICKUP_INPUT):
+		_pickup_focused_item()
 
 
 func _process(_delta: float) -> void:
 	_focus_nearest_item()
+
+
+func _pickup_focused_item() -> void:
+	if focused_item == null:
+		return
+	if not Inventory.can_fit_at_least(
+		Inventory.Type.PLAYER, focused_item.get_item_type(), 1
+	):
+		pickup_failed_inventory_full.emit()
+		return
+	Inventory.add_item(Inventory.Type.PLAYER, focused_item.get_item_type(), 1)
+	focused_item.picked_up()
+	$ItemPickup.play()
 
 
 func _focus_nearest_item() -> void:
@@ -47,14 +66,14 @@ func _set_scanning(new_scanning: bool) -> void:
 
 
 func _calculate_cost(body: Node2D, mouse_direction: Vector2) -> float:
-	var vector := body.position - position
+	var vector := body.global_position - global_position
 	var distance := vector.length()
 	var angle := absf(vector.angle_to(mouse_direction))
 	
 	return distance * ITEM_DISTANCE_WEIGHT + angle * ITEM_ANGLE_WEIGHT
 
 
-func _set_focused_item(new_focused_item: Node2D) -> void:
+func _set_focused_item(new_focused_item: Creature) -> void:
 	if new_focused_item != focused_item:
 		if focused_item != null:
 			focused_item.deselect()

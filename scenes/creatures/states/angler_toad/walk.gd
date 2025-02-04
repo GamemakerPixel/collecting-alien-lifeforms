@@ -17,7 +17,7 @@ func enter() -> void:
 	creature.size_jump_ray(WALK_SPEED)
 	_set_walk_timer()
 	creature.hearing_area.body_entered.connect(_on_player_heard)
-	creature.modulate = Color.GREEN
+	creature.animation.play("normal")
 	process_mode = ProcessMode.PROCESS_MODE_INHERIT
 
 

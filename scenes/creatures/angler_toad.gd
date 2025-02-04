@@ -16,6 +16,7 @@ const JUMP_RAY_EXTRA_WIDTH = 15.0
 
 @onready var jump_ray: RayCast2D = $JumpRay
 @onready var hearing_area: Area2D = $Hearing
+@onready var animation: AnimationPlayer = $Animation
 
 # x axis direction, 1 = right, -1 = left
 var move_direction := 1 : set = _set_move_direction
@@ -47,6 +48,7 @@ func size_jump_ray(speed: float) -> void:
 func jump_if_should() -> void:
 	if jump_ray.is_colliding() and is_on_floor():
 		velocity.y -= jump_velocity
+		animation.play("jump")
 
 
 func netted() -> void:
@@ -63,6 +65,16 @@ func set_collision_grabbable(grabbable: bool) -> void:
 		collision_layer = 0b00000100
 	else:
 		collision_layer = 0b00001000
+
+
+func picked_up() -> void:
+	$CollisionShape2D.disabled = true
+	animation.animation_finished.connect(
+		func(_anim_name: String): queue_free()
+	)
+	animation.process_mode = Node.PROCESS_MODE_ALWAYS
+	process_mode = ProcessMode.PROCESS_MODE_DISABLED
+	animation.play("picked_up")
 
 
 func _initialize_states() -> void:

@@ -1,26 +1,69 @@
-[gd_scene load_steps=7 format=3 uid="uid://bq7oe4c0orhsk"]
+[gd_scene load_steps=14 format=4 uid="uid://bq7oe4c0orhsk"]
 
 [ext_resource type="Script" path="res://scenes/maps/procedural_planet.gd" id="1_27ufo"]
 [ext_resource type="TileSet" uid="uid://bc7poo3v4t30i" path="res://resources/tilesets/bioluminescent_forest.tres" id="1_cyuv2"]
 [ext_resource type="PackedScene" uid="uid://ck4r8065g78u" path="res://scenes/player.tscn" id="3_vn2fw"]
 [ext_resource type="PackedScene" uid="uid://c0ctllr6trmmr" path="res://scenes/return_ship.tscn" id="4_ekvkk"]
 [ext_resource type="PackedScene" uid="uid://c3r6g2w14tn1b" path="res://scenes/creatures/angler_toad.tscn" id="4_wwq1s"]
+[ext_resource type="PackedScene" uid="uid://c6msdhk02ot6n" path="res://scenes/creatures/mushroom.tscn" id="5_0n1pj"]
+[ext_resource type="Texture2D" uid="uid://6orese6cmsdt" path="res://assets/textures/tilesets/grass_motion.png" id="6_o3h1u"]
+[ext_resource type="Texture2D" uid="uid://cn5iyq6nv3s68" path="res://assets/textures/tilesets/tree_motion.png" id="7_vgv1o"]
+[ext_resource type="AudioStream" uid="uid://i6o55jemsj7y" path="res://assets/sound/ambient.wav" id="9_0lpcm"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_kgpaf"]
 frequency = 0.05
 
-[node name="Planet" type="Node2D" node_paths=PackedStringArray("ground_tiles")]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jj4sg"]
+texture = ExtResource("6_o3h1u")
+texture_region_size = Vector2i(32, 32)
+0:0/animation_columns = 2
+0:0/animation_mode = 1
+0:0/animation_frame_0/duration = 0.75
+0:0/animation_frame_1/duration = 0.75
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2mpoo"]
+texture = ExtResource("7_vgv1o")
+texture_region_size = Vector2i(32, 32)
+0:0/size_in_atlas = Vector2i(3, 3)
+0:0/animation_columns = 6
+0:0/animation_mode = 1
+0:0/animation_frame_0/duration = 0.25
+0:0/animation_frame_1/duration = 0.25
+0:0/animation_frame_2/duration = 0.25
+0:0/animation_frame_3/duration = 0.25
+0:0/animation_frame_4/duration = 0.25
+0:0/animation_frame_5/duration = 0.25
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_7pnpn"]
+tile_size = Vector2i(32, 32)
+sources/0 = SubResource("TileSetAtlasSource_jj4sg")
+sources/1 = SubResource("TileSetAtlasSource_2mpoo")
+
+[node name="Planet" type="Node2D" node_paths=PackedStringArray("ground_tiles", "background_tiles")]
 script = ExtResource("1_27ufo")
 height_noise = SubResource("FastNoiseLite_kgpaf")
 return_ship_scene = ExtResource("4_ekvkk")
 player_scene = ExtResource("3_vn2fw")
-creatures = Array[PackedScene]([ExtResource("4_wwq1s")])
-creature_spawn_probabilities = Array[float]([0.075])
+creatures = Array[PackedScene]([ExtResource("4_wwq1s"), ExtResource("5_0n1pj")])
+creature_spawn_probabilities = Array[float]([0.075, 0.125])
+creature_flat_surface_required = Array[bool]([false, true])
 ground_tiles = NodePath("Tiles/Ground")
+background_tiles = NodePath("Tiles/Background")
 
 [node name="Tiles" type="Node2D" parent="."]
 
 [node name="Ground" type="TileMapLayer" parent="Tiles"]
+tile_map_data = PackedByteArray("AAAAAAIAAQABAAAAAAABAAIAAQABAAAAAAACAAIAAQABAAAAAAADAAIAAQABAAAAAAAAAAMAAQAAAAAAAAABAAMAAQAAAAAAAAACAAMAAQAAAAAAAAADAAMAAQAAAAAAAAAAAAQAAQAAAAAAAAABAAQAAQAAAAAAAAACAAQAAQAAAAAAAAADAAQAAQAAAAAAAAD//wIAAQABAAEAAAAEAAIAAQACAAEAAAAEAAMAAQACAAAAAAAEAAQAAQACAAAAAAD//wQAAQADAAAAAAD//wMAAQADAAAAAAA=")
 tile_set = ExtResource("1_cyuv2")
 
+[node name="Background" type="TileMapLayer" parent="Tiles"]
+tile_map_data = PackedByteArray("AAACAAAAAQAAAAAAAAAAAAEAAAAAAAAAAAACAAEAAAAAAAAAAAADAAEAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_7pnpn")
+
 [node name="Creatures" type="Node2D" parent="."]
+
+[node name="Ambience" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_0lpcm")
+autoplay = true

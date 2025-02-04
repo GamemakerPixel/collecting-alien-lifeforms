@@ -1,0 +1,14 @@
+Format: Author - Link - License - File - Modified
+
+Sounds
+	Ko0kix - https://freesound.org/people/Ko0kix/sounds/429695/ - CC0 - res://assets/sound/pick_up.wav - Minimally
+	worthahep88 - https://freesound.org/people/worthahep88/sounds/319205/ - CC0 - res://assets/sound/player_jump.wav - Minimally
+	chris_dagorne - https://freesound.org/people/chris_dagorne/sounds/563155/ - CC0 - res://assets/sound/frog_jump.wav - Combined
+	wak4n - https://freesound.org/people/wak4n/sounds/749487/ - CC0 - res://assets/sound/frog_jump.wav - Combined
+	Sahand.Zangeneh - https://freesound.org/people/Sahand.Zangeneh/sounds/710246/ - CC0 - res://assets/sound/ambient.wav - Combined
+	ZIP.Creates - https://freesound.org/people/ZIP.Creates/sounds/726319/ - CC0 - res://assets/sound/ambient.wav - Combined
+	JPBILLINGSLEYJR - https://freesound.org/people/JPBILLINGSLEYJR/ - CC0 - res://assets/sound/frog_startle.wav - Modified
+	wintuh - https://freesound.org/people/wintuh/sounds/471852/ - CC0 - res://assets/sound/frog_capture.wav - Combined
+	stib - https://freesound.org/people/stib/sounds/346267/ - CC0 - res://assets/sound/frog_capture.wav - Combined, Modified
+	Rudmer_Rotteveel - https://freesound.org/people/Rudmer_Rotteveel/sounds/718442/ - CC0 - res://assets/sound/unload.wav - Combined
+	Xekilor - https://freesound.org/people/Xekilor/sounds/773924/ - CC0 - res://assets/sound/unload.wav - Combined

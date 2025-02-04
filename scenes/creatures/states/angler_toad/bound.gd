@@ -5,8 +5,8 @@ extends State
 
 func enter() -> void:
 	creature.velocity.x = 0.0
-	creature.modulate = Color.YELLOW
 	creature.set_collision_grabbable(true)
+	creature.animation.play("captured")
 	process_mode = ProcessMode.PROCESS_MODE_INHERIT
 
 

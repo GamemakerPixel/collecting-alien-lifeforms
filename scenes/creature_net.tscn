@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cschmins8holp"]
+[gd_scene load_steps=5 format=3 uid="uid://cschmins8holp"]
 
-[ext_resource type="Texture2D" uid="uid://fgnew5e251tw" path="res://icon.svg" id="1_h2qsq"]
 [ext_resource type="Script" path="res://scenes/creature_net.gd" id="1_mxp1v"]
+[ext_resource type="Texture2D" uid="uid://60plgimw887i" path="res://assets/textures/tilesets/net.png" id="2_a4htk"]
+[ext_resource type="Script" path="res://scenes/velocity_rotational_sprite.gd" id="3_ldf2v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mfhjw"]
 radius = 32.0
@@ -13,10 +14,12 @@ contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_mxp1v")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-modulate = Color(0.790369, 0.549908, 0.540748, 1)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_h2qsq")
+[node name="Sprite" type="Sprite2D" parent="." node_paths=PackedStringArray("body")]
+rotation = 2.35619
+scale = Vector2(2, 2)
+texture = ExtResource("2_a4htk")
+script = ExtResource("3_ldf2v")
+body = NodePath("..")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_mfhjw")

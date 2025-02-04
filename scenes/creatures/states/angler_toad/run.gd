@@ -14,7 +14,7 @@ func enter() -> void:
 	creature.size_jump_ray(RUN_SPEED)
 	_create_run_timer()
 	_set_run_timer()
-	creature.modulate = Color.RED
+	creature.animation.play("startled")
 	process_mode = ProcessMode.PROCESS_MODE_INHERIT
 
 

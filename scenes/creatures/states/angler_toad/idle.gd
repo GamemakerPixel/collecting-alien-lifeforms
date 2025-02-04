@@ -13,7 +13,7 @@ func enter() -> void:
 	_set_idle_timer()
 	creature.velocity.x = 0.0
 	creature.hearing_area.body_entered.connect(_on_player_heard)
-	creature.modulate = Color.BLUE
+	creature.animation.play("normal")
 	process_mode = ProcessMode.PROCESS_MODE_INHERIT
 
 
